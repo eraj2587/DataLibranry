@@ -6,7 +6,7 @@ namespace DataLibrary
 {
     public class DataAccessLayer
     {
-        public string connectionstring = @"Server=localhost\SQLEXPRESS;Database=EmployeeDB;Trusted_Connection=True;";
+        public string connectionstring = @"Server=(LocalDb)\MSSQLLocalDB;Database=EmployeeDB;Trusted_Connection=True;";
 
         //GetallEmployees
         public List<Employee> GetAllEmployees()
