@@ -11,13 +11,16 @@ namespace EmployeeManagement.Controllers
 {
     public class EmployeeController : Controller
     {
+        public readonly DataAccessLayer dal;
+        public EmployeeController()
+        {
+            dal = new DataAccessLayer();
+        }
         // GET: EmployeeController
         public ActionResult Index()
         {
-            DataAccessLayer dal = new DataAccessLayer();
             var allEmployees = dal.GetAllEmployees();
             List<EmployeeModel> employeeModel = new List<EmployeeModel>();
-
             allEmployees.ForEach(employee =>
             {
                 employeeModel.Add(new EmployeeModel
@@ -33,8 +36,23 @@ namespace EmployeeManagement.Controllers
         }
 
         // GET: EmployeeController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int employeeId)
         {
+            var allEmployees = dal.GetAllEmployees();
+            //LINQ queries
+            var employeeDetails = allEmployees.Where(x => x.Employeeid == employeeId).FirstOrDefault();
+
+            if (employeeDetails != null)
+            {
+                var employeeDbModel = new EmployeeModel
+                {
+                    Email = employeeDetails.Email,
+                    Salary = employeeDetails.Salary,
+                    Name = employeeDetails.Name
+                };
+                return View(employeeDbModel);
+            }
+            
             return View();
         }
 
@@ -51,6 +69,24 @@ namespace EmployeeManagement.Controllers
         {
             try
             {
+                var employeeId = new Random().Next(1000);
+                var newEmployeeModel = new EmployeeModel
+                {
+                    Employeeid = employeeId,
+                    Email = collection.FirstOrDefault(x=>x.Key=="Email").Value,
+                    Name = collection.FirstOrDefault(x => x.Key == "Name").Value,
+                    Salary =Convert.ToInt32(collection.FirstOrDefault(x => x.Key == "Salary").Value)
+                };
+
+                var dbEmployeeModel = new Employee()
+                {
+                    Employeeid = newEmployeeModel.Employeeid,
+                    Email = newEmployeeModel.Email,
+                    Name = newEmployeeModel.Name,
+                    Salary = newEmployeeModel.Salary
+                };
+
+                dal.AddEmployee(dbEmployeeModel);
                 return RedirectToAction(nameof(Index));
             }
             catch

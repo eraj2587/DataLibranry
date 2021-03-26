@@ -15,7 +15,7 @@
         @foreach (var emplyee in Model)
         {
         <tr>
-            <td>@emplyee.Employeeid</td>
+            <td><a asp-area="" asp-controller="Employee" asp-action="Details" asp-route-employeeId="@emplyee.Employeeid">@emplyee.Employeeid</a></td>
             <td>@emplyee.Name </td>
             <td>@emplyee.Email </td>
             <td>@emplyee.Salary </td>
@@ -26,6 +26,6 @@
     </tbody>
 </table>
 
-<button class="btn btn-primary">Add New Employee</button>
+<a class="btn btn-primary" asp-controller="Employee" asp-action="Create" >Add New Employee</a>
 
 

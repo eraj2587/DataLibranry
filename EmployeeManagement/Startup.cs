@@ -31,7 +31,7 @@ namespace EmployeeManagement
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               // app.UseBrowserLink();
+                app.UseBrowserLink();
             }
             else
             {
@@ -47,7 +47,7 @@ namespace EmployeeManagement
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Employee}/{action=Index}/{id?}");
             });
         }
     }
